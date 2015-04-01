@@ -58,22 +58,5 @@ public class FindDuplicatesMD5 {
 		System.out.println("Done!");
 		Long end = System.currentTimeMillis();
 		System.out.println("Took: " + (end - start) + "ms");
-		
-//		Iterator<File> iterator2 = FileUtils.iterateFiles(dir, extensions, true);
-//		while(iterator2.hasNext()) {
-//			File file1 = iterator2.next();
-//			Iterator<File> iterator3 = FileUtils.iterateFiles(dir, extensions, true);
-//			while(iterator3.hasNext()) {
-//				try {
-//					File file2 = iterator3.next();
-//					if(FileUtils.contentEquals(file1, file2) && !file1.getAbsoluteFile().toString().equals(file2.getAbsoluteFile().toString())) {
-//						i++;
-//						System.out.println("Found duplicate (" + i + ") - " + file1.getName() + " = " + file2.getName());
-//					}
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
 	}
 }
