@@ -13,50 +13,12 @@ import org.apache.commons.io.FileUtils;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.LinkedListMultimap;
+import com.musicmanager.actions.FileActions;
 
 public class FindDuplicatesMD5 {
 	public static void main(String[] args) {
-		
-		int i = 0;
-
-		Long start = System.currentTimeMillis();
-		
-		File dir = new File("D:\\backup\\music");
-		
-		if(!new File("D:\\backup\\music\\duplicates").mkdirs()) {
-			try {
-				throw new Exception();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
+		FileActions fa = new FileActions();
 		String[] extensions = {"mp3"};
-		
-		ArrayListMultimap<String, File> fileMap = ArrayListMultimap.create();
-		System.out.println("Iterating over files...");
-		@SuppressWarnings("unchecked")
-		Iterator<File> iterator = FileUtils.iterateFiles(dir, extensions, true);
-		while(iterator.hasNext()) {
-			i++;
-			System.out.println(i);
-			File file = iterator.next();
-			try {
-				fileMap.put(MD5Checksum.getMD5Checksum(file.getAbsolutePath()), file);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		System.out.println("Done!");
-		System.out.println("Checking files...");
-		for(String key : fileMap.keys()) {
-			List<File> files = fileMap.get(key);
-			if(files.size() > 1) {
-				System.out.println("SIZE");
-			}
-		}
-		System.out.println("Done!");
-		Long end = System.currentTimeMillis();
-		System.out.println("Took: " + (end - start) + "ms");
+		fa.actionDuplicates("D:\\duplicates", fa.findDuplicatesByMD5("D:\\backup\\music", extensions), true);
 	}
 }

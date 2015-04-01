@@ -3,9 +3,11 @@ package com.musicmanager.actions;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,10 +41,10 @@ public class FileActions {
 			createDuplicatesDirectory(duplicatesDirectory);
 		if(md5) {
 			ArrayListMultimap<String, File> fileMap = findDuplicatesByMD5(rootDirectory, extensions);
-			actionDuplicates(fileMap, move);
+			actionDuplicates("D:\\duplicates", fileMap, move);
 		} else {
 			Set<File> fileSet = findDuplicates(rootDirectory, extensions);
-			actionDuplicates(fileSet, move);
+			actionDuplicates("D:\\duplicates", fileSet, move);
 		}
 
 	}
@@ -121,11 +123,13 @@ public class FileActions {
 		}
 	}
 
-	public void actionDuplicates(Set<File> fileSet, boolean move) {
+	public void actionDuplicates(String moveDirectory, Set<File> fileSet, boolean move) {
 		System.out.println("Checking files...");
 		for(File file : fileSet) {
 			if(move) {
 				System.out.println("Moving " + file);
+				//moveFile(file, moveDirectory);
+				copyAndDelete(file, moveDirectory);
 			} else {
 				System.out.println("Listing " + file);
 			}
@@ -133,21 +137,31 @@ public class FileActions {
 		System.out.println("Done!");
 	}
 
-	public void actionDuplicates(ArrayListMultimap<String, File> fileMap, boolean move) {
+	public void actionDuplicates(String moveDirectory, ArrayListMultimap<String, File> fileMap, boolean move) {
 		System.out.println("Checking files...");
 		for(String key : fileMap.keys()) {
 			List<File> files = fileMap.get(key);
 			if(files.size() > 1) {
+				boolean first = true;
 				for(File file : files) {
-					if(move) {
-						System.out.println("Moving " + file);
-					} else {
-						System.out.println("Listing " + file);
+					if(!first) {
+						if(move) {
+							System.out.println("Moving " + file);
+							moveFile(file, moveDirectory);
+						} else {
+							System.out.println("Listing " + file);
+						}
 					}
+					first = false;
 				}
 			}
 		}
 		System.out.println("Done!");
+	}
+	
+	public void moveFile(File file, String moveDirectory) {
+		File f = new File(moveDirectory);
+		file.renameTo(new File(moveDirectory + "\\" + file.getName()));
 	}
 
 	public static byte[] createChecksum(String filename) throws Exception {
@@ -178,5 +192,39 @@ public class FileActions {
 			result += Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
 		}
 		return result;
+	}
+	
+	public void copyAndDelete(File file, String moveDir) {
+		InputStream inStream = null;
+		OutputStream outStream = null;
+	 
+	    	try{
+	 
+	    	    File bfile =new File(moveDir + "\\" + file.getName());
+	 
+	    	    inStream = new FileInputStream(file);
+	    	    outStream = new FileOutputStream(bfile);
+	 
+	    	    byte[] buffer = new byte[1024];
+	 
+	    	    int length;
+	    	    //copy the file content in bytes 
+	    	    while ((length = inStream.read(buffer)) > 0){
+	 
+	    	    	outStream.write(buffer, 0, length);
+	 
+	    	    }
+	 
+	    	    inStream.close();
+	    	    outStream.close();
+	 
+	    	    //delete the original file
+	    	    file.delete();
+	 
+	    	    System.out.println("File is copied successful!");
+	 
+	    	}catch(IOException e){
+	    	    e.printStackTrace();
+	    	}
 	}
 }
