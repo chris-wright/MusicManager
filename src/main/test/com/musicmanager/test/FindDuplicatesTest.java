@@ -33,6 +33,11 @@ public class FindDuplicatesTest {
 
 	@After
 	public void tearDown() throws Exception {
+		file1.delete();
+		file2.delete();
+		file3.delete();
+		file4.delete();
+		file5.delete();
 	}
 
 	@Test

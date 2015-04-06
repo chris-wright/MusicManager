@@ -22,8 +22,8 @@ public class MP3Actions {
 		File newFile = new File(newFilename);
 		try {
 			FileUtils.copyFile(oldFile, newFile);
-			fActioner.moveFile(oldFile, "D:\\backup\\quarantine\\malformed_file");
-			oldFile.delete();
+			fActioner.moveFile(oldFile, "C:\\git\\Other\\MusicManager\\resources\\backup_music");
+			//oldFile.delete();
 			return newFile.getAbsolutePath();
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -37,20 +37,29 @@ public class MP3Actions {
 			MP3File file = new MP3File(filename);
 			return file;
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Hit IOException - " + e.getMessage());
+			fActioner.copyAndDelete(new File(filename), "C:\\git\\Other\\MusicManager\\resources\\corrupt_music");
+			//fActioner.moveFile(new File(filename), "C:\\git\\Other\\MusicManager\\resources\\corrupt_music");
+			return null;
 		} catch (TagException e) {
 			if(e.getCause().getMessage().contains("Unmatched parenthesis")) {
 				try {
 					return new MP3File(getCleansedFile_unmatchedParenthesis(filename));
 				} catch (IOException e1) {
 					e1.printStackTrace();
+					fActioner.moveFile(new File(filename), "C:\\git\\Other\\MusicManager\\resources\\corrupt_music");
+					return null;
 				} catch (TagException e1) {
 					e1.printStackTrace();
+					fActioner.moveFile(new File(filename), "C:\\git\\Other\\MusicManager\\resources\\corrupt_music");
+					return null;
 				}
 			}
 		} catch (UnsupportedOperationException e) {
+			fActioner.moveFile(new File(filename), "C:\\git\\Other\\MusicManager\\resources\\corrupt_music");
 			return null;
 		}
+		fActioner.moveFile(new File(filename), "C:\\git\\Other\\MusicManager\\resources\\question");
 		return null;
 	}
 	

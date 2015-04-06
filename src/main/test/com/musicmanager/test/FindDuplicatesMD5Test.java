@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.musicmanager.actions.FileActions;
@@ -34,13 +33,17 @@ public class FindDuplicatesMD5Test {
 
 	@After
 	public void tearDown() throws Exception {
+		file1.delete();
+		file2.delete();
+		file3.delete();
+		file4.delete();
+		file5.delete();
 	}
 
 	@Test
 	public void test() {
 		String[] extensions = {"txt"};
 		ArrayListMultimap<String, File> files = fileActions.findDuplicatesByMD5("resources", extensions);
-		int i = 0;
 		assertEquals(files.keySet().size(), 2);
 	}
 }

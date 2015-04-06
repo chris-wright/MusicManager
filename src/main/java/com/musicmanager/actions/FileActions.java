@@ -161,7 +161,9 @@ public class FileActions {
 	
 	public void moveFile(File file, String moveDirectory) {
 		File f = new File(moveDirectory);
-		file.renameTo(new File(moveDirectory + "\\" + file.getName()));
+		String dest = moveDirectory + "\\" + file.getName();
+		boolean b = file.renameTo(new File(moveDirectory + "\\" + file.getName()));
+		System.out.println(b);
 	}
 
 	public static byte[] createChecksum(String filename) throws Exception {
@@ -220,6 +222,9 @@ public class FileActions {
 	 
 	    	    //delete the original file
 	    	    file.delete();
+	    	    if(file.exists()) {
+	    	    	file.delete();
+	    	    }
 	 
 	    	    System.out.println("File is copied successful!");
 	 
