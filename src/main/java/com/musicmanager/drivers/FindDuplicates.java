@@ -18,6 +18,6 @@ public class FindDuplicates {
 	public static void main(String[] args) {
 		FileActions fa = new FileActions();
 		String[] extensions = {"mp3"};
-		fa.actionDuplicates("D:\\duplicates", fa.findDuplicates("D:\\backup\\music", extensions), false);
+		fa.actionDuplicates("C:\\git\\Other\\MusicManager\\resources\\duplicate_music", fa.findDuplicates("C:\\git\\Other\\MusicManager\\resources\\music", extensions), false);
 	}
 }

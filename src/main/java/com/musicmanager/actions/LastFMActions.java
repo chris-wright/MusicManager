@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.farng.mp3.MP3File;
 
+import de.umass.lastfm.Album;
 import de.umass.lastfm.Artist;
 import de.umass.lastfm.Track;
 
@@ -22,6 +23,36 @@ public class LastFMActions {
 		}
 	}
 	
+	public Collection<Album> findAlbums(String title, String artist) {
+		Collection<Track> albums = Artist.
+		for(Album album : albums) {
+			if(album.getName().equals(title)) {
+				System.out.println("Found - " + title + " by " + artist);
+			}
+		}
+		return tracks;
+	}
+	
+	public Collection<Track> findTracks(String title, String artist) {
+		Collection<Track> tracks = Artist.getTopTracks(artist, key);
+		for(Track track : tracks) {
+			if(track.getName().equals(title)) {
+				System.out.println("Found - " + title + " by " + artist);
+			}
+		}
+		return tracks;
+	}
+	
+	public Collection<Track> findTracks(String title) {
+		Collection<Track> tracks = Track.search(title, key);
+		for(Track track : tracks) {
+			if(track.getName().equals(title)) {
+				System.out.println("Found - " + title + " by " + track.getArtist());
+			}
+		}
+		return tracks;
+	}
+	
 	public Track findTrack(String title, String artist) {
 		Collection<Track> tracks = Artist.getTopTracks(artist, key);
 		for(Track track : tracks) {
@@ -31,6 +62,18 @@ public class LastFMActions {
 			}
 		}
 		System.out.println("No track found - " + title + " by " + artist);
+		return null;
+	}
+	
+	public Track findTrack(String title) {
+		Collection<Track> tracks = Track.search(title, key);
+		for(Track track : tracks) {
+			if(track.getName().equals(title)) {
+				System.out.println("Found - " + title + " by " + track.getArtist());
+				return track;
+			}
+		}
+		System.out.println("No track found - " + title);
 		return null;
 	}
 }

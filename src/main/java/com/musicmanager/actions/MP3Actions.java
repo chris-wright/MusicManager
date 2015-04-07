@@ -11,9 +11,45 @@ import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 import org.farng.mp3.id3.AbstractID3v2;
 
+import com.musicmanager.mp3.FileTagHelper;
+
 public class MP3Actions {
 	
 	FileActions fActioner = new FileActions();
+	LastFMActions lActioner = new LastFMActions();
+	
+	public MP3File enrichFile(MP3File file) {
+//		if(FileTagHelper.hasTitleAndArtist(file.getID3v2Tag()) && !FileTagHelper.hasAlbum(file.getID3v2Tag())) {
+//			System.out.println("Has title and artist, but no album");
+//		}
+		
+		if(!FileTagHelper.hasTitle(file.getID3v2Tag())) {
+			String possibleTitle = file.getMp3file().getName().replace(".mp3", "");
+			
+		}
+		
+		if(!FileTagHelper.hasArtist(file.getID3v2Tag())) {
+			System.out.println("no artist");
+		}
+		
+		if(!FileTagHelper.hasAlbum(file.getID3v2Tag())) {
+			System.out.println("no ablum");
+		}
+		
+		if(!FileTagHelper.hasGenre(file.getID3v2Tag())) {
+			System.out.println("no genre");
+		}
+		
+		if(!FileTagHelper.hasTrackNumber(file.getID3v2Tag())) {
+			System.out.println("no track number");
+		}
+		
+		if(!FileTagHelper.hasYearReleased(file.getID3v2Tag())) {
+			System.out.println("no year released");
+		}
+		
+		return file;
+	}
 	
 	public String getCleansedFile_unmatchedParenthesis(String filename) {
 		String newFilename = filename.replace("(", "");
@@ -87,31 +123,6 @@ public class MP3Actions {
 		return "";
 	}
 	
-	public boolean hasFullTags(MP3File file) {
-		if(file.getID3v2Tag() != null) {
-			AbstractID3v2 tag = file.getID3v2Tag();
-			if(tag.getSongTitle().isEmpty() || tag.getSongTitle() == null) {
-				return false;
-			} else if(tag.getSongTitle().isEmpty() || tag.getSongTitle() == null) {
-				return false;
-			} else if(tag.getLeadArtist().isEmpty() || tag.getLeadArtist() == null) {
-				return false;
-			} else if(tag.getAlbumTitle().isEmpty() || tag.getAlbumTitle() == null) {
-				return false;
-			} else if(tag.getSongGenre().isEmpty() || tag.getSongGenre() == null) {
-				return false;
-			} else if(tag.getSongGenre().isEmpty() || tag.getSongGenre() == null) {
-				return false;
-			} else if(tag.getTrackNumberOnAlbum().isEmpty() || tag.getTrackNumberOnAlbum() == null) {
-				return false;
-			} else if(tag.getYearReleased().isEmpty() || tag.getYearReleased() == null) {
-				return false;
-			}
-			return true;
-		}
-		return false;
-	}
-	
 	public List<String> getFullTagStatus() {
 		List<String> files = new ArrayList<String>();
 		String[] extensions = {"mp3"};
@@ -139,7 +150,7 @@ public class MP3Actions {
 			try {
 				File f = iterator.next();
 				MP3File file = getNewMP3File(f.getAbsolutePath());
-				if(hasFullTags(file)) {
+				if(FileTagHelper.hasFullTags(file.getID3v2Tag())) {
 					files.add(file);
 				}
 			} catch (Exception e) {
@@ -164,4 +175,5 @@ public class MP3Actions {
 		}
 		return files;
 	}
+
 }

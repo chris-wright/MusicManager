@@ -13,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.LinkedListMultimap;
+import com.musicmanager.util.PropertiesReader;
 
 public class QuarantineDuplicatesMD5 {
 	public static void main(String[] args) {
@@ -21,9 +22,9 @@ public class QuarantineDuplicatesMD5 {
 
 		Long start = System.currentTimeMillis();
 		
-		File dir = new File("D:\\backup\\music");
+		File dir = new File("C:\\git\\Other\\MusicManager\\resources\\music");
 		
-		if(!new File("D:\\backup\\music\\duplicates").mkdirs()) {
+		if(!new File("C:\\git\\Other\\MusicManager\\resources\\duplicate_music").mkdirs()) {
 			try {
 				throw new Exception();
 			} catch (Exception e) {
@@ -49,15 +50,16 @@ public class QuarantineDuplicatesMD5 {
 		}
 		System.out.println("Done!");
 		System.out.println("Checking files...");
-		for(String key : fileMap.keys()) {
+		for(String key : fileMap.keySet()) {
 			List<File> files = fileMap.get(key);
+			System.out.println(files.get(0).getName());
 			if(files.size() > 1) {
-				boolean first = true;
+				boolean candidate = false;
 				for(File file : files) {
-					if(!first) {
+					if(!candidate) {
 						System.out.println("Moving file - " + file.getAbsolutePath() + " - " + file.getName());
-						//file.renameTo(new File("D:\\backup\\music\\duplicates\\" + file.getName()));
-						first = !first;
+						file.renameTo(new File("C:\\git\\Other\\MusicManager\\resources\\duplicate_music\\" + file.getName()));
+						candidate = !candidate;
 					}
 						
 				}
@@ -66,22 +68,5 @@ public class QuarantineDuplicatesMD5 {
 		System.out.println("Done!");
 		Long end = System.currentTimeMillis();
 		System.out.println("Took: " + (end - start) + "ms");
-		
-//		Iterator<File> iterator2 = FileUtils.iterateFiles(dir, extensions, true);
-//		while(iterator2.hasNext()) {
-//			File file1 = iterator2.next();
-//			Iterator<File> iterator3 = FileUtils.iterateFiles(dir, extensions, true);
-//			while(iterator3.hasNext()) {
-//				try {
-//					File file2 = iterator3.next();
-//					if(FileUtils.contentEquals(file1, file2) && !file1.getAbsoluteFile().toString().equals(file2.getAbsoluteFile().toString())) {
-//						i++;
-//						System.out.println("Found duplicate (" + i + ") - " + file1.getName() + " = " + file2.getName());
-//					}
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
 	}
 }
