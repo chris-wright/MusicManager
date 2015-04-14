@@ -1,22 +1,60 @@
 package com.musicmanager.actions;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 import org.farng.mp3.id3.AbstractID3v2;
 
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
 import com.musicmanager.mp3.FileTagHelper;
 
 public class MP3Actions {
 	
 	FileActions fActioner = new FileActions();
 	LastFMActions lActioner = new LastFMActions();
+	
+	public BufferedImage getAlbumArt(String path) {
+		try {
+			Mp3File file = new Mp3File(path);
+			return getAlbumArt(file);
+		} catch (UnsupportedTagException e) {
+			e.printStackTrace();
+		} catch (InvalidDataException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public BufferedImage getAlbumArt(Mp3File song) {
+		try {
+			if (song.hasId3v2Tag()){
+			     ID3v2 id3v2tag = song.getId3v2Tag();
+			     byte[] imageData = id3v2tag.getAlbumImage();
+			     if(imageData != null) {
+				     BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
+				     return img;
+			     }
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public MP3File enrichFile(MP3File file) {
 //		if(FileTagHelper.hasTitleAndArtist(file.getID3v2Tag()) && !FileTagHelper.hasAlbum(file.getID3v2Tag())) {

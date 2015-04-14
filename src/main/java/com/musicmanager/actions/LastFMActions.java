@@ -24,13 +24,13 @@ public class LastFMActions {
 	}
 	
 	public Collection<Album> findAlbums(String title, String artist) {
-		Collection<Track> albums = Artist.
+		Collection<Album> albums = Artist.getTopAlbums(artist, key);
 		for(Album album : albums) {
 			if(album.getName().equals(title)) {
 				System.out.println("Found - " + title + " by " + artist);
 			}
 		}
-		return tracks;
+		return albums;
 	}
 	
 	public Collection<Track> findTracks(String title, String artist) {

@@ -24,14 +24,40 @@
 			<version>4.1.6.RELEASE</version>
 		</dependency>
 		<dependency>
+			<groupId>fm.last</groupId>
+			<artifactId>musicbrainz-data</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>fm.last</groupId>
+			<artifactId>coverartarchive-api</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mpatric</groupId>
+			<artifactId>mp3agic</artifactId>
+			<version>0.8.3</version>
+		</dependency>
+		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
 			<version>3.0-rc3</version>
 		</dependency>
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.12</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.12</version>
 		</dependency>
 
 		<dependency>
